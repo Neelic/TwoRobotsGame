@@ -47,7 +47,7 @@ public class BigRobot extends Robot {
         _zoneWidth = zoneWidth;
     }
 
-    public boolean moveTo() {
+    public void moveTo() {
         Direction dir = null;
         if (_countMissedMoves == 0) {
             SmallRobot target = field().smallRobot();
@@ -67,11 +67,10 @@ public class BigRobot extends Robot {
                 _countMissedMoves = 3;
 
             catchSmallRobot(target);
-            return true;
-        } else
-            _countMissedMoves-=1;
-
-        return false;
+            robotMove(this);
+        } else {
+            _countMissedMoves -= 1;
+        }
     }
 
     private void catchSmallRobot(SmallRobot robot) {

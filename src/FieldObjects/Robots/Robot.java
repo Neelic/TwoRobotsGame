@@ -3,6 +3,12 @@ package FieldObjects.Robots;
 import Navigation.Direction;
 import Navigation.Field;
 import Navigation.Position;
+import events.GameOverActionEvent;
+import events.GameOverActionListener;
+import events.RobotMoveEvent;
+import events.RobotMoveListener;
+
+import java.util.ArrayList;
 
 abstract class Robot {
     protected Field _field;
@@ -25,4 +31,22 @@ abstract class Robot {
     }
 
     protected abstract boolean canMove(Direction dir);
+
+    private final ArrayList<RobotMoveListener> _listeners = new ArrayList<>();
+    protected void robotMove(Robot robot) {
+        if (robot != null) {
+            for (RobotMoveListener obj : _listeners) {
+                obj.robotMove(new RobotMoveEvent(robot));
+            }
+        }
+    }
+
+    public void addListener(RobotMoveListener listener) {
+        if (!_listeners.contains(listener))
+            _listeners.add(listener);
+    }
+
+    public void removeListener(RobotMoveListener listener) {
+        _listeners.remove(listener);
+    }
 }

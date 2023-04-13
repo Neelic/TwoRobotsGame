@@ -28,12 +28,11 @@ public class SmallRobot extends Robot {
                 && field().wall(new MiddlePosition(position(), dir)) == null;
     }
 
-    public boolean moveTo(Direction dir) {
+    public void moveTo(Direction dir) {
         if (canMove(dir)) {
             _position = position().nextPosition(dir);
             _field.exitPoint().isSmallRobotInExitPoint(this);
-            return true;
+            robotMove(this);
         }
-        return false;
     }
 }
