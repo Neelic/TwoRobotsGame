@@ -30,7 +30,7 @@ public abstract class Device {
         if (_field != null && canReplace(pos)) {
             this._position = pos;
             _field.addDevice(this);
-            putDeviceEvent();
+            putDeviceEvent(pos);
             return true;
         } else {
             return false;
@@ -45,6 +45,15 @@ public abstract class Device {
 
     public abstract Device clone();
 
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        }
+
+        return this.getClass() == object.getClass();
+    }
+
     public abstract boolean canMoveOnSwamp();
 
     private final static List<DevicePutListener> _PutDeviceListeners = new ArrayList<>();
@@ -52,7 +61,7 @@ public abstract class Device {
     private final static List<DeviceActionListener> _ActionDeviceListeners = new ArrayList<>();
 
     public static void addListener(@NotNull DevicePutListener listener) {
-        if (_PutDeviceListeners.contains(listener)) {
+        if (!_PutDeviceListeners.contains(listener)) {
             _PutDeviceListeners.add(listener);
         }
     }
@@ -62,7 +71,7 @@ public abstract class Device {
     }
 
     public static void addListener(@NotNull DeviceActionListener listener) {
-        if (_ActionDeviceListeners.contains(listener)) {
+        if (!_ActionDeviceListeners.contains(listener)) {
             _ActionDeviceListeners.add(listener);
         }
     }
@@ -71,14 +80,14 @@ public abstract class Device {
         _ActionDeviceListeners.remove(listener);
     }
 
-    protected void putDeviceEvent() {
-        for (var obj: _PutDeviceListeners) {
-            obj.deviceIsPut(new DevicePutEvent(this));
+    protected void putDeviceEvent(Position position) {
+        for (DevicePutListener obj: _PutDeviceListeners) {
+            obj.deviceIsPut(new DevicePutEvent(this, position));
         }
     }
 
     protected void actionDeviceEvent() {
-        for (var obj: _ActionDeviceListeners) {
+        for (DeviceActionListener obj: _ActionDeviceListeners) {
             obj.startDeviceAction(new DeviceActionEvent(this));
         }
     }

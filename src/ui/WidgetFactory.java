@@ -1,8 +1,14 @@
 package ui;
 
+import model.FieldObjects.Devices.Device;
+import model.FieldObjects.Devices.Pontoon;
+import model.FieldObjects.Devices.Trap;
 import model.Navigation.MiddlePosition;
 import model.Navigation.Position;
 import org.jetbrains.annotations.NotNull;
+import ui.FieldsObjects.Devices.DeviceWidget;
+import ui.FieldsObjects.Devices.PontoonWidget;
+import ui.FieldsObjects.Devices.TrapWidget;
 import ui.FieldsObjects.ExitPointWidget;
 import ui.FieldsObjects.RobotsWidgets.BigRobotWidget;
 import ui.FieldsObjects.RobotsWidgets.SmallRobotWidget;
@@ -12,8 +18,7 @@ import ui.Navigation.Cells.SwampCellWidget;
 import ui.Navigation.FieldWidget;
 import ui.Navigation.MidCells.MidCellWidget;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class WidgetFactory {
     private FieldWidget _fieldWidget;
@@ -63,6 +68,33 @@ public class WidgetFactory {
                 return obj;
             }
         }
+        return null;
+    }
+
+    List<DeviceWidget> _deviceWidgets = new ArrayList<>();
+
+    public DeviceWidget createDeviceWidget(@NotNull Device device) {
+            DeviceWidget deviceWidget = null;
+            if (device instanceof Pontoon) {
+                deviceWidget = new PontoonWidget((Pontoon) device);
+            } else if (device instanceof Trap) {
+                deviceWidget = new TrapWidget((Trap) device);
+            }
+
+            if (deviceWidget != null) {
+                _deviceWidgets.add(deviceWidget);
+            }
+
+        return deviceWidget;
+    }
+
+    public DeviceWidget deviceWidget(Device device) {
+        for (DeviceWidget obj: _deviceWidgets) {
+            if (obj.device().equals(device)) {
+                return obj;
+            }
+        }
+
         return null;
     }
 }

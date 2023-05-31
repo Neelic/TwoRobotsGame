@@ -1,9 +1,7 @@
 package ui.Navigation;
 
-import model.Events.GameOverActionEvent;
-import model.Events.GameOverActionListener;
-import model.Events.RobotMoveEvent;
-import model.Events.RobotMoveListener;
+import model.Events.*;
+import model.FieldObjects.Devices.Device;
 import model.FieldObjects.ExitPoint;
 import model.FieldObjects.Robots.BigRobot;
 import model.FieldObjects.Robots.Robot;
@@ -14,7 +12,9 @@ import model.Navigation.MiddlePosition;
 import model.Navigation.Position;
 import org.jetbrains.annotations.NotNull;
 import ui.EndGameWindowWidget;
+import ui.FieldsObjects.Devices.DeviceWidget;
 import ui.FieldsObjects.RobotsWidgets.RobotWidget;
+import ui.Navigation.Cells.CellWidget;
 import ui.Navigation.MidCells.MidCellWidget;
 import ui.WidgetFactory;
 
@@ -90,8 +90,8 @@ public class FieldWidget extends JPanel {
         @Override
         public void robotMove(RobotMoveEvent event) {
             Robot source = (Robot) event.getSource();
-            var sourcePosition = source.position();
-            var sourceWidget = (RobotWidget) _factory.cellWidget(
+            Position sourcePosition = source.position();
+            RobotWidget sourceWidget = (RobotWidget) _factory.cellWidget(
                     sourcePosition.nextPosition(event.getDirection().opposite())
             ).removeObjectWidget();
 
@@ -123,10 +123,41 @@ public class FieldWidget extends JPanel {
         }
     }
 
+    private final DevicePutController _devicePutController = new DevicePutController();
+
+    private class DevicePutController implements DevicePutListener {
+
+        @Override
+        public void deviceIsPut(DevicePutEvent event) {
+            DeviceWidget deviceWidget = _factory.createDeviceWidget((Device) event.getSource());
+
+            CellWidget cellWidget = _factory.cellWidget(event.getPosition());
+
+            if (deviceWidget != null) {
+                cellWidget.add(deviceWidget);
+                cellWidget.repaint();
+            }
+        }
+    }
+
+    private final DeviceActionController _deviceActionController = new DeviceActionController();
+
+    private class DeviceActionController implements DeviceActionListener {
+
+        @Override
+        public void startDeviceAction(DeviceActionEvent event) {
+            Device source = (Device) event.getSource();
+
+            _factory.cellWidget(source.position());
+        }
+    }
+
     private void setListeners() {
         _field.smallRobot().addListener(_robotController);
         _field.bigRobot().addListener(_robotController);
         _field.bigRobot().addListener(_gameOverController);
         _field.exitPoint().addListener(_gameOverController);
+        Device.addListener(_deviceActionController);
+        Device.addListener(_devicePutController);
     }
 }

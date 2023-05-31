@@ -24,7 +24,7 @@ public class Pontoon extends Device{
     @Override
     public int startAction(@NotNull Robot robot) {
         actionDeviceEvent();
-        return 0;
+        return COUNT_MISSED_MOVES;
     }
 
     @Override

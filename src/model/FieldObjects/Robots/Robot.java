@@ -67,12 +67,12 @@ public abstract class Robot {
         }
 
         for (Map.Entry<Class, List<Device>> pair : _devices.entrySet()) {
-            var size = pair.getValue().size();
+            int size = pair.getValue().size();
             if (size < 1) {
                 return;
             }
 
-            var device = pair.getValue().get(size - 1);
+            Device device = pair.getValue().get(size - 1);
             boolean isPutDevice = false;
 
             if (device != null && (chance == 100 || Math.random() * 100 < chance)) {
