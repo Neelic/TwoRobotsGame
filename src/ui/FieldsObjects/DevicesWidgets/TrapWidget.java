@@ -1,4 +1,4 @@
-package ui.FieldsObjects.Devices;
+package ui.FieldsObjects.DevicesWidgets;
 
 import model.FieldObjects.Devices.Trap;
 

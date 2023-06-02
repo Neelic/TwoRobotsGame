@@ -2,6 +2,7 @@ package model.FieldObjects.Robots;
 
 import model.Events.GameOverActionEvent;
 import model.Events.GameOverActionListener;
+import model.Events.RobotStateChangeEvent;
 import model.FieldObjects.Devices.Device;
 import model.FieldObjects.Devices.Pontoon;
 import model.Navigation.Algorithms.BehaviorAlgorithm;
@@ -94,14 +95,14 @@ public class BigRobot extends Robot {
 
 
                 if (countMissedMoves > 0) {
-                    robotStateChange(this);
+                    robotStateChange(this, RobotStateChangeEvent.StateStatus.START_MISS_COUNT);
                 }
             }
 
             catchSmallRobot(target);
         } else {
             countMissedMoves--;
-            robotStateChange(this);
+            robotStateChange(this, RobotStateChangeEvent.StateStatus.DECREASE_MISS_COUNT);
         }
     }
 

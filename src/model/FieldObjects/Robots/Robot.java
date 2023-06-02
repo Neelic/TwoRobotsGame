@@ -72,15 +72,16 @@ public abstract class Robot {
                 return;
             }
 
-            Device device = pair.getValue().get(size - 1);
+            Device device = pair.getValue().get(0);
             boolean isPutDevice = false;
 
-            if (device != null && (chance == 100 || Math.random() * 100 < chance)) {
+            if (chance == 100 || Math.random() * 100 < chance) {
                 device.setField(_field);
                 isPutDevice = device.putDevice(pos);
             }
 
             if(isPutDevice) {
+                System.out.println("Robot put device " + device.getClass() + " on position " + pos.col() + " " + pos.row());
                 pair.getValue().remove(device);
             }
         }
@@ -121,10 +122,10 @@ public abstract class Robot {
     }
 
     private final ArrayList<RobotStateChangeListener> _listenersState = new ArrayList<>();
-    protected void robotStateChange(Robot robot) {
+    protected void robotStateChange(Robot robot, RobotStateChangeEvent.StateStatus status) {
         if (robot != null) {
             for (RobotStateChangeListener obj : _listenersState) {
-                obj.robotStateChange(new RobotStateChangeEvent(this));
+                obj.robotStateChange(new RobotStateChangeEvent(this, status));
             }
         }
     }

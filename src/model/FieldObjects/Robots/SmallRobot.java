@@ -1,5 +1,6 @@
 package model.FieldObjects.Robots;
 
+import model.Events.RobotStateChangeEvent;
 import model.FieldObjects.Devices.Device;
 import model.FieldObjects.Swamp;
 import model.Navigation.Direction;
@@ -30,10 +31,6 @@ public class SmallRobot extends Robot {
             return false;
         }
 
-//        if (!_position.hasNextPosition(dir)) {
-//            return false;
-//        }
-
         Position nextPosition = _position.nextPosition(dir);
         Device device = _field.deviceByPosition(nextPosition);
         Swamp swamp = field().swamp(nextPosition);
@@ -59,14 +56,15 @@ public class SmallRobot extends Robot {
                     countMissedMoves = device.startAction(this);
 
                     if (countMissedMoves != 0) {
-                        robotStateChange(this);
+                        robotStateChange(this, RobotStateChangeEvent.StateStatus.START_MISS_COUNT);
                     }
                 }
 
                 robotMoveAction(this, dir);
             }
         } else {
-            countMissedMoves -= 1;
+            countMissedMoves--;
+            robotStateChange(this, RobotStateChangeEvent.StateStatus.DECREASE_MISS_COUNT);
         }
     }
 

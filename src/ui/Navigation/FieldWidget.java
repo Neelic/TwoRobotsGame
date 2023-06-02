@@ -2,6 +2,7 @@ package ui.Navigation;
 
 import model.Events.*;
 import model.FieldObjects.Devices.Device;
+import model.FieldObjects.Devices.Trap;
 import model.FieldObjects.ExitPoint;
 import model.FieldObjects.Robots.BigRobot;
 import model.FieldObjects.Robots.Robot;
@@ -12,7 +13,7 @@ import model.Navigation.MiddlePosition;
 import model.Navigation.Position;
 import org.jetbrains.annotations.NotNull;
 import ui.EndGameWindowWidget;
-import ui.FieldsObjects.Devices.DeviceWidget;
+import ui.FieldsObjects.DevicesWidgets.DeviceWidget;
 import ui.FieldsObjects.RobotsWidgets.RobotWidget;
 import ui.Navigation.Cells.CellWidget;
 import ui.Navigation.MidCells.MidCellWidget;
@@ -102,7 +103,7 @@ public class FieldWidget extends JPanel {
                 }
             }
 
-            repaint();
+            updateUI();
         }
     }
 
@@ -134,8 +135,8 @@ public class FieldWidget extends JPanel {
             CellWidget cellWidget = _factory.cellWidget(event.getPosition());
 
             if (deviceWidget != null) {
-                cellWidget.add(deviceWidget);
-                cellWidget.repaint();
+                cellWidget.add(deviceWidget, -1);
+                cellWidget.updateUI();
             }
         }
     }
@@ -148,7 +149,13 @@ public class FieldWidget extends JPanel {
         public void startDeviceAction(DeviceActionEvent event) {
             Device source = (Device) event.getSource();
 
-            _factory.cellWidget(source.position());
+            if (source instanceof Trap) {
+                CellWidget cell = _factory.cellWidget(source.position());
+                DeviceWidget deviceWidget = _factory.deviceWidget(source);
+                cell.remove(deviceWidget);
+                deviceWidget.setVisible(false);
+                //cell.updateUI();
+            }
         }
     }
 

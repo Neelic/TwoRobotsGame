@@ -85,4 +85,8 @@ public class Position {
 
         return false;
     }
+
+    public Position clone() {
+        return new Position(_row, _col);
+    }
 }

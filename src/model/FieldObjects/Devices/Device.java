@@ -28,9 +28,9 @@ public abstract class Device {
 
     public boolean putDevice(Position pos) {
         if (_field != null && canReplace(pos)) {
-            this._position = pos;
+            _position = pos.clone();
             _field.addDevice(this);
-            putDeviceEvent(pos);
+            putDeviceEvent(_position);
             return true;
         } else {
             return false;

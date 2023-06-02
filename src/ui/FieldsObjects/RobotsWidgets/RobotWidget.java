@@ -2,7 +2,6 @@ package ui.FieldsObjects.RobotsWidgets;
 
 import model.Events.RobotStateChangeEvent;
 import model.Events.RobotStateChangeListener;
-import model.FieldObjects.Robots.BigRobot;
 import model.FieldObjects.Robots.Robot;
 import ui.FieldsObjects.FieldObjectWidget;
 import ui.Navigation.Cells.CellWidget;
@@ -21,17 +20,17 @@ public abstract class RobotWidget extends FieldObjectWidget {
         removeAll();
         if (count != 0) {
             JLabel p = new JLabel(String.valueOf(count));
-            p.setLocation(0, -5);
+            p.setLocation(0, 5);
             p.setForeground(Color.ORANGE);
             p.setSize(new Dimension(CellWidget.CELL_SIZE, 20));
-            add(p);
+            add(p, -1);
         }
     }
 
     private class RobotStateListener implements RobotStateChangeListener {
         @Override
         public void robotStateChange(RobotStateChangeEvent event) {
-            BigRobot source = (BigRobot) event.getSource();
+            Robot source = (Robot) event.getSource();
             showStringMissCount(source.missedMoves());
         }
     }

@@ -148,14 +148,15 @@ public class Field {
     private final ArrayList<Device> _devices = new ArrayList<>();
 
     public void addDevice(Device device) {
-        if (!_devices.contains(device) && device.position() != null && deviceByPosition(device.position()) == null) {
+        if (device.position() != null && deviceByPosition(device.position()) == null) {
             _devices.add(device);
+            System.out.println("Add Device to field on " + device.position().col() + " " + device.position().row());
         }
     }
 
     public Device deviceByPosition(Position pos) {
 
-        for (var obj : _devices) {
+        for (Device obj : _devices) {
             if (pos.equals(obj.position())) {
                 return  obj;
             }
@@ -165,7 +166,7 @@ public class Field {
     }
 
     public Device deviceByTypeAndPosition(Position position, Class deviceClass) {
-        for (var obj : _devices) {
+        for (Device obj : _devices) {
             if (obj.getClass() == deviceClass && obj.position().equals(position)) {
                 return obj;
             }
@@ -177,5 +178,6 @@ public class Field {
     public void deleteDevice(Device device) {
         device.setField(null);
         _devices.remove(device);
+        System.out.println("Remove " + device.getClass() + " on " + device.position().col() + " " + device.position().row());
     }
 }

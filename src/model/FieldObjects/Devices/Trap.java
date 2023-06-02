@@ -36,7 +36,7 @@ public class Trap extends Device{
 
     @Override
     public Device clone() {
-        var trap = new Trap();
+        Trap trap = new Trap();
         trap.setField(_field);
         return trap;
     }

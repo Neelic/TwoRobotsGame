@@ -26,12 +26,13 @@ public class CellWidget extends JPanel {
 
     public void setObjectWidget(@NotNull FieldObjectWidget objectWidget) {
         _objectWidget = objectWidget;
-        add(_objectWidget);
+        add(_objectWidget, 0);
     }
 
     public FieldObjectWidget removeObjectWidget() {
-        var obj = _objectWidget;
+        FieldObjectWidget obj = _objectWidget;
         _objectWidget = null;
+        remove(0);
         return obj;
     }
 }
