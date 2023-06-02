@@ -12,6 +12,7 @@ import java.awt.*;
 public abstract class RobotWidget extends FieldObjectWidget {
 
     public RobotWidget(Robot robot) {
+        setLayout(null);
         RobotStateListener listenerRobotState = new RobotStateListener();
         robot.addListener(listenerRobotState);
     }
@@ -20,10 +21,10 @@ public abstract class RobotWidget extends FieldObjectWidget {
         removeAll();
         if (count != 0) {
             JLabel p = new JLabel(String.valueOf(count));
-            p.setLocation(0, 5);
+            p.setLocation(0, -5);
             p.setForeground(Color.ORANGE);
             p.setSize(new Dimension(CellWidget.CELL_SIZE, 20));
-            add(p, -1);
+            add(p);
         }
     }
 
