@@ -91,13 +91,17 @@ public class FieldWidget extends JPanel {
         @Override
         public void robotMove(RobotMoveEvent event) {
             Robot source = (Robot) event.getSource();
-            Position sourcePosition = source.position();
-            RobotWidget sourceWidget = (RobotWidget) _factory.cellWidget(
-                    sourcePosition.nextPosition(event.getDirection().opposite())
-            ).removeObjectWidget();
+            Position sourceOldPosition = event.getOldPosition();
+
+            RobotWidget sourceWidget = null;
+            if (sourceOldPosition != null) {
+                sourceWidget = (RobotWidget) _factory.cellWidget(
+                        sourceOldPosition
+                ).removeObjectWidget();
+            }
 
             if (sourceWidget != null) {
-                _factory.cellWidget(sourcePosition).setObjectWidget(sourceWidget);
+                _factory.cellWidget(source.position()).setObjectWidget(sourceWidget);
                 if (source instanceof SmallRobot) {
                     sourceWidget.requestFocus();
                 }

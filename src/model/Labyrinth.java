@@ -1,6 +1,7 @@
 package model;
 
 import model.FieldObjects.Devices.Pontoon;
+import model.FieldObjects.Devices.Teleport;
 import model.FieldObjects.Devices.Trap;
 import model.FieldObjects.ExitPoint;
 import model.FieldObjects.Robots.BigRobot;
@@ -66,9 +67,11 @@ public class Labyrinth {
         _field.setExitPoint(point);
 
         robotS.addDevice(new Pontoon(), 5);
+        robotS.addDevice(new Teleport(), 1);
 
         robotB.addDevice(new Pontoon(), 5);
         robotB.addDevice(new Trap(), 3);
+        robotB.addDevice(new Teleport(), 1);
 
         _field = null;
     }

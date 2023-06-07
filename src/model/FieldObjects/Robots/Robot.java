@@ -5,6 +5,7 @@ import model.Events.RobotMoveListener;
 import model.Events.RobotStateChangeEvent;
 import model.Events.RobotStateChangeListener;
 import model.FieldObjects.Devices.Device;
+import model.FieldObjects.Devices.Teleport;
 import model.Navigation.Direction;
 import model.Navigation.Field;
 import model.Navigation.Position;
@@ -61,10 +62,17 @@ public abstract class Robot {
         }
     }
 
-    protected void putDevice(@NotNull Position pos, int chance) {
+    private int _chance = 100;
+
+    protected void setPutDeviceChance(int chance) {
         if (chance < 0 || chance > 100) {
             return;
         }
+
+        _chance = chance;
+    }
+
+    protected void putDevice(@NotNull Position pos) {
 
         for (Map.Entry<Class, List<Device>> pair : _devices.entrySet()) {
             int size = pair.getValue().size();
@@ -75,8 +83,13 @@ public abstract class Robot {
             Device device = pair.getValue().get(0);
             boolean isPutDevice = false;
 
-            if (chance == 100 || Math.random() * 100 < chance) {
+            if (_chance == 100 || Math.random() * 100 < _chance) {
                 device.setField(_field);
+
+                if (device instanceof Teleport) {
+                    ((Teleport) device).setPropertyRobot(this);
+                }
+
                 isPutDevice = device.putDevice(pos);
             }
 
@@ -102,10 +115,10 @@ public abstract class Robot {
     }
 
     private final ArrayList<RobotMoveListener> _listeners = new ArrayList<>();
-    protected void robotMoveAction(Robot robot, Direction dir) {
+    protected void robotMoveAction(Robot robot, Position oldPosition) {
         if (robot != null) {
             for (RobotMoveListener obj : _listeners) {
-                obj.robotMove(new RobotMoveEvent(robot, dir));
+                obj.robotMove(new RobotMoveEvent(robot, oldPosition));
             }
         }
 

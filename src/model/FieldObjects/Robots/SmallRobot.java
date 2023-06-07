@@ -18,6 +18,8 @@ public class SmallRobot extends Robot {
 
         if (field != null && field.smallRobot() != this)
             field.setSmallRobot(this);
+
+        setPutDeviceChance(chancePutDevice);
     }
     public SmallRobot(Field field) {
         super(field);
@@ -45,10 +47,11 @@ public class SmallRobot extends Robot {
         }
 
         if (countMissedMoves == 0) {
-            putDevice(_position.nextPosition(dir), chancePutDevice);
+            putDevice(_position.nextPosition(dir));
 
             if (canMove(dir)) {
                 Position nextPosition = _position.nextPosition(dir);
+                Position oldPosition = _position;
                 _position = nextPosition;
 
                 Device device = _field.deviceByPosition(nextPosition);
@@ -60,7 +63,7 @@ public class SmallRobot extends Robot {
                     }
                 }
 
-                robotMoveAction(this, dir);
+                robotMoveAction(this, oldPosition);
             }
         } else {
             countMissedMoves--;

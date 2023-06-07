@@ -29,7 +29,7 @@ public class Pontoon extends Device{
 
     @Override
     public Device clone() {
-        var pontoon = new Pontoon();
+        Device pontoon = new Pontoon();
         pontoon.setField(_field);
         return pontoon;
     }

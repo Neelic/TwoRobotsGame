@@ -89,4 +89,13 @@ public class Position {
     public Position clone() {
         return new Position(_row, _col);
     }
+
+    public Position getMirrorPositionRelativeToVertical() {
+        return new Position(_row, _horizontalRange.max() - _col + 1);
+    }
+
+    public boolean isBorderPosition() {
+        return (_horizontalRange.max() == _col || _horizontalRange.min() == _col)
+                || (_verticalRange.max() == _row || _verticalRange.min() == _row);
+    }
 }

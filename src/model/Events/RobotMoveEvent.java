@@ -1,6 +1,6 @@
 package model.Events;
 
-import model.Navigation.Direction;
+import model.Navigation.Position;
 
 import java.util.EventObject;
 
@@ -8,15 +8,15 @@ public class RobotMoveEvent extends EventObject {
     /**
      *
      * @param source the object on which the Event initially occurred
-     * @param direction move direction
+     * @param oldPosition old position
      * @throws IllegalArgumentException if source is null
      */
-    public RobotMoveEvent(Object source, Direction direction) {
+    public RobotMoveEvent(Object source, Position oldPosition) {
         super(source);
-        _dir = direction;
+        _oldPosition = oldPosition;
     }
-    private final Direction _dir;
-    public Direction getDirection() {
-        return _dir;
+    private final Position _oldPosition;
+    public Position getOldPosition() {
+        return _oldPosition;
     }
 }

@@ -2,12 +2,14 @@ package ui;
 
 import model.FieldObjects.Devices.Device;
 import model.FieldObjects.Devices.Pontoon;
+import model.FieldObjects.Devices.Teleport;
 import model.FieldObjects.Devices.Trap;
 import model.Navigation.MiddlePosition;
 import model.Navigation.Position;
 import org.jetbrains.annotations.NotNull;
 import ui.FieldsObjects.DevicesWidgets.DeviceWidget;
 import ui.FieldsObjects.DevicesWidgets.PontoonWidget;
+import ui.FieldsObjects.DevicesWidgets.TeleportWidget;
 import ui.FieldsObjects.DevicesWidgets.TrapWidget;
 import ui.FieldsObjects.ExitPointWidget;
 import ui.FieldsObjects.RobotsWidgets.BigRobotWidget;
@@ -79,9 +81,11 @@ public class WidgetFactory {
                 deviceWidget = new PontoonWidget((Pontoon) device);
             } else if (device instanceof Trap) {
                 deviceWidget = new TrapWidget((Trap) device);
+            } else if (device instanceof Teleport) {
+                deviceWidget = new TeleportWidget((Teleport) device);
             }
 
-            if (deviceWidget != null) {
+        if (deviceWidget != null) {
                 _deviceWidgets.add(deviceWidget);
             }
 

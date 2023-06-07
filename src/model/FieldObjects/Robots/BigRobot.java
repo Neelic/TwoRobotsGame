@@ -27,6 +27,8 @@ public class BigRobot extends Robot {
 
         if (alg != null && alg.bigRobot() != this)
             _sillyAlgorithm.setBigRobot(this);
+
+        setPutDeviceChance(chancePutDevice);
     }
     public SillyAlgorithm sillyAlgorithm() {
         return _sillyAlgorithm;
@@ -76,7 +78,7 @@ public class BigRobot extends Robot {
 
             if (dir != null && canMove(dir)) {
                 Position nextPosition = _position.nextPosition(dir);
-                putDevice(nextPosition, chancePutDevice);
+                putDevice(nextPosition);
 
                 Device device = _field.deviceByPosition(nextPosition);
 
@@ -86,8 +88,8 @@ public class BigRobot extends Robot {
                     }
                 }
 
+                Position oldPosition = _position;
                 _position = _position.nextPosition(dir);
-                robotMoveAction(this, dir);
 
                 if (device != null) {
                     countMissedMoves = device.startAction(this);
@@ -96,6 +98,8 @@ public class BigRobot extends Robot {
                 if (countMissedMoves > 0) {
                     robotStateChange(this, RobotStateChangeEvent.StateStatus.START_MISS_COUNT);
                 }
+
+                robotMoveAction(this, oldPosition);
             }
 
             catchSmallRobot(target);

@@ -1,6 +1,7 @@
 package model.FieldObjects.Robots;
 
 import model.FieldObjects.Devices.Pontoon;
+import model.FieldObjects.Devices.Teleport;
 import model.FieldObjects.Devices.Trap;
 import model.FieldObjects.Swamp;
 import model.FieldObjects.Wall;
@@ -71,7 +72,7 @@ class SmallRobotTest {
         Field field = new Field();
         SmallRobot robot = new SmallRobot(field);
         robot.setPosition(new Position(1, 1));
-        var trap = new Trap();
+        Trap trap = new Trap();
         trap.setField(field);
         trap.putDevice(new Position(2,1));
 
@@ -79,5 +80,31 @@ class SmallRobotTest {
 
         assertEquals(new Position(2, 1), robot.position());
         assertEquals(robot.countMissedMoves, 1);
+    }
+
+    @Test
+    void moveToTeleportWithoutProperty() {
+        Field field = new Field();
+        SmallRobot robot = new SmallRobot(field);
+        robot.setPosition(new Position(1, 1));
+        Teleport teleport = new Teleport();
+        teleport.setField(field);
+        teleport.putDevice(new Position(2,1));
+
+        robot.moveTo(Direction.north());
+
+        assertEquals(new Position(2, 1), robot.position());
+    }
+
+    @Test
+    void moveToTeleportWithProperty() {
+        Field field = new Field();
+        SmallRobot robot = new SmallRobot(field);
+        robot.setPosition(new Position(1, 1));
+        robot.addDevice(new Teleport(), 1);
+
+        robot.moveTo(Direction.north());
+
+        assertEquals(new Position(2, 10), robot.position());
     }
 }
