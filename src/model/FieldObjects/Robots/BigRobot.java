@@ -86,13 +86,12 @@ public class BigRobot extends Robot {
                     }
                 }
 
-                if (device != null) {
-                    countMissedMoves = device.startAction(this);
-                }
-
                 _position = _position.nextPosition(dir);
                 robotMoveAction(this, dir);
 
+                if (device != null) {
+                    countMissedMoves = device.startAction(this);
+                }
 
                 if (countMissedMoves > 0) {
                     robotStateChange(this, RobotStateChangeEvent.StateStatus.START_MISS_COUNT);
