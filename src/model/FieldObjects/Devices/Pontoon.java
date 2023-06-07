@@ -18,7 +18,7 @@ public class Pontoon extends Device{
             return false;
         }
 
-        return _field.swamp(position) != null && _field.deviceByTypeAndPosition(position, this.getClass()) == null;
+        return _field.swamp(position) != null && _field.deviceByPosition(position) == null;
     }
 
     @Override

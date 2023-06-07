@@ -17,7 +17,7 @@ public class Trap extends Device{
             return false;
         }
 
-        return _field.swamp(position) == null && _field.deviceByTypeAndPosition(position, this.getClass()) == null;
+        return _field.swamp(position) == null && _field.deviceByPosition(position) == null;
     }
 
     private final static int COUNT_MISSED_MOVES = 1;
