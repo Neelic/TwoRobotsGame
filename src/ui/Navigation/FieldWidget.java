@@ -154,7 +154,6 @@ public class FieldWidget extends JPanel {
                 DeviceWidget deviceWidget = _factory.deviceWidget(source);
                 cell.remove(deviceWidget);
                 deviceWidget.setVisible(false);
-                //cell.updateUI();
             }
         }
     }

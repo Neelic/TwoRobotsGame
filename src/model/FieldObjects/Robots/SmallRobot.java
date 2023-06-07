@@ -69,11 +69,4 @@ public class SmallRobot extends Robot {
     }
 
     private final int chancePutDevice = 100;
-//    public void puttingDevice(Direction dir) {
-//        if (!_position.hasNextPosition(dir)) {
-//            return;
-//        }
-//
-//        putDevice(_position.nextPosition(dir), chancePutDevice);
-//    }
 }
